@@ -84,6 +84,9 @@ outputs/*.docx
 # README
 README.md
 
+# IEEE paper generator script
+create_ieee_paper.py
+
 # Generated samples (temp files)
 generate_samples.py
 generate_gan_samples.py
