@@ -75,6 +75,15 @@ outputs/lora/generated_samples/
 # Temporary Word files
 outputs/~$*.docx
 
+# IEEE Papers (documentation)
+outputs/*.docx
+
+# Notebooks
+*.ipynb
+
+# README
+README.md
+
 # Generated samples (temp files)
 generate_samples.py
 generate_gan_samples.py
