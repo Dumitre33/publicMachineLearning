@@ -1,0 +1,88 @@
+# ============================================
+# Stable Diffusion LoRA Configuration
+# Optimized for RTX 4060 (8GB VRAM)
+# ============================================
+
+# Base model
+model:
+  name: "runwayml/stable-diffusion-v1-5"
+  revision: "main"
+  variant: "fp16"  # Use fp16 to save VRAM
+
+# LoRA settings
+lora:
+  rank: 128              # LoRA rank (higher = more capacity, more VRAM)
+  alpha: 128             # LoRA alpha (usually same as rank)
+  dropout: 0.0           # Dropout for regularization
+  target_modules:        # Which layers to apply LoRA to
+    - "to_q"
+    - "to_k"
+    - "to_v"
+    - "to_out.0"
+    - "proj_in"
+    - "proj_out"
+    - "ff.net.0.proj"
+    - "ff.net.2"
+    - "conv1"
+    - "conv2"
+    - "conv_shortcut"
+    - "downsamplers.0.conv"
+    - "upsamplers.0.conv"
+
+# Training settings (Optimized for ~1-2 hours on RTX 4060)
+training:
+  batch_size: 1           # Must be 1 for 8GB VRAM
+  gradient_accumulation_steps: 4  # Effective batch size = 4
+  num_train_epochs: 15    # ~1-2 hours training time
+  max_train_steps: null   # If set, overrides epochs
+  
+  # Learning rate (conservative for stability)
+  learning_rate: 5.0e-5   # Lower LR for stability
+  lr_scheduler: "cosine"
+  lr_warmup_steps: 100
+  
+  # Optimizer
+  optimizer: "adamw"
+  adam_beta1: 0.9
+  adam_beta2: 0.999
+  adam_weight_decay: 0.01
+  adam_epsilon: 1.0e-8
+  max_grad_norm: 1.0
+  
+  # Memory optimization
+  mixed_precision: "fp16"
+  gradient_checkpointing: true
+  enable_xformers: true
+  
+  # Validation
+  validation_prompt: "a high quality fashion photograph of a dress, professional product photo"
+  validation_epochs: 10
+  num_validation_images: 4
+
+# Data settings
+data:
+  train_dir: "data/processed/lora"
+  resolution: 512
+  center_crop: true
+  random_flip: true
+  
+# Instance prompt (for DreamBooth-style training)
+instance_prompt: "a photograph of sks fashion clothing"
+class_prompt: null  # Optional: prior preservation
+
+# Output settings
+output:
+  dir: "outputs/lora"
+  save_steps: 250        # Save more frequently
+  save_total_limit: 5    # Keep last 5 checkpoints
+
+# Logging
+logging:
+  use_wandb: false
+  use_tensorboard: true
+  log_steps: 10
+
+# Hardware
+hardware:
+  device: "cuda"
+  seed: 42

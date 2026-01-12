@@ -1,0 +1,82 @@
+# ============================================
+# Projected GAN Configuration (OPTIMIZED 11-12 HOURS)
+# RTX 4060 (8GB VRAM) - Quality Preserved
+# ============================================
+
+# Model settings
+model:
+  name: "fastgan"
+  latent_dim: 256
+  img_size: 256
+  img_channels: 3
+
+# Feature network (frozen backbone)
+feature_network:
+  name: "efficientnet_lite0"
+  pretrained: true
+  frozen: true
+
+# Training settings - OPTIMIZED FOR 11-12 HOURS
+training:
+  batch_size: 10         # Increased from 8 (faster training, fits in 8GB)
+  total_kimg: 750        # Reduced from 1000 (75% = ~11 hours instead of 15)
+  
+  # Optimizer - Slightly higher LR for faster convergence (still safe)
+  g_lr: 0.00025   # Generator LR (slightly higher for speed)
+  d_lr: 0.00025   # Discriminator LR (slightly higher for speed)
+  betas: [0.0, 0.99]
+  
+  # Regularization
+  r1_gamma: 0.1      # Low R1 penalty for stability
+  d_reg_interval: 8  # Frequent R1 regularization
+  
+  # Stability settings
+  grad_clip: 0.5         # Gradient clipping threshold
+  warmup_steps: 1000     # Longer warmup for higher LR (was 500)
+  ema_decay: 0.9999      # EMA decay for generator
+  max_nan_count: 30      # More tolerance before stopping
+  
+  # Mixed precision
+  mixed_precision: true
+  
+  # Gradient accumulation
+  accumulation_steps: 1
+  
+  # Checkpointing (less frequent to save I/O time)
+  checkpoint_interval: 5000   # Save every 5k steps (was 2.5k)
+  sample_interval: 1000       # Samples every 1k steps (was 500)
+  log_interval: 100           # Log every 100 steps (was 50)
+  
+  # Early stopping
+  fid_target: 50.0
+
+# Data settings
+data:
+  train_dir: "data/processed/projected_gan"
+  num_workers: 4
+  pin_memory: true
+  
+  # Augmentation (crucial for small datasets)
+  augmentation:
+    enabled: true
+    hflip: true
+    color_jitter: 0.2
+    random_crop: true
+
+# Output settings
+output:
+  dir: "outputs/projected_gan"
+  save_samples: true
+  num_samples: 16
+  
+# Logging
+logging:
+  use_wandb: false
+  use_tensorboard: true
+  log_interval: 50
+
+# Hardware
+hardware:
+  device: "cuda"
+  cudnn_benchmark: true
+  seed: 42

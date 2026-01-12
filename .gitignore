@@ -1,0 +1,103 @@
+# ============================================
+# Fashion Image Generation - .gitignore
+# ============================================
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual Environment
+venv/
+env/
+ENV/
+.venv/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.project
+.pydevproject
+.settings/
+
+# Jupyter Notebooks
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ============================================
+# Project Specific - Large Files
+# ============================================
+
+# Raw Dataset (too large for GitHub)
+data/raw/
+data/archive.zip
+
+# Processed Dataset (can be regenerated)
+data/processed/
+
+# Model Outputs & Checkpoints (large binary files)
+outputs/projected_gan/*.pt
+outputs/projected_gan/*.png
+outputs/projected_gan/logs/
+outputs/lora/checkpoint-*/
+outputs/lora/logs/
+outputs/lora/generated_samples/
+
+# Keep sample outputs for documentation
+!outputs/projected_gan/samples_final.png
+!outputs/lora/generated_samples/sample_grid.png
+
+# Temporary Word files
+outputs/~$*.docx
+
+# Generated samples (temp files)
+generate_samples.py
+generate_gan_samples.py
+generated_samples.png
+
+# ============================================
+# Keep these files
+# ============================================
+!.gitkeep
+!outputs/.gitkeep
+!data/.gitkeep
+
+# Kaggle credentials (security)
+kaggle.json
+.kaggle/
+
+# Environment variables
+.env
+.env.local
+
+# Logs
+*.log
+logs/
+
+# Test files
+test.py
