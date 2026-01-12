@@ -66,11 +66,10 @@ outputs/projected_gan/*.png
 outputs/projected_gan/logs/
 outputs/lora/checkpoint-*/
 outputs/lora/logs/
-outputs/lora/generated_samples/
 
 # Keep sample outputs for documentation
 !outputs/projected_gan/samples_final.png
-!outputs/lora/generated_samples/sample_grid.png
+!outputs/lora/generated_samples/
 
 # Temporary Word files
 outputs/~$*.docx
